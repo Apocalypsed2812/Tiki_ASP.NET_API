@@ -1,0 +1,17 @@
+var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, account.Username),
+                };
+
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ToDo"));
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var token = new JwtSecurityToken(
+                    issuer: "localhost:5238",
+                    audience: "localhost:5238",
+                    claims: claims,
+                    expires: DateTime.Now.AddHours(1),
+                    signingCredentials: creds);
+                return Ok(new
+                {
+                    token = new JwtSecurityTokenHandler().WriteToken(token)
+                });
